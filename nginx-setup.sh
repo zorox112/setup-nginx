@@ -16,6 +16,7 @@ DOMAIN=$1
 INTERNAL_ADDRESS=$2
 EMAIL=$3
 NGINX_CONF="/etc/nginx/sites-available/$DOMAIN"
+NGINX_DEFAULT_CONF="/etc/nginx/sites-available/default"
 
 # Устанавливаем необходимые пакеты
 echo "Установка Nginx и Certbot..."
@@ -25,6 +26,12 @@ apt install -y nginx certbot python3-certbot-nginx
 # Проверка наличия старой конфигурации
 if [ -f $NGINX_CONF ]; then
     echo "Конфигурация для домена $DOMAIN уже существует. Удаление старой конфигурации..."
+    rm -f /etc/nginx/sites-available/$DOMAIN
+    rm -f /etc/nginx/sites-enabled/$DOMAIN
+fi
+# Проверка наличия дефолтной конфигурации
+if [ -f $NGINX_DEFAULT_CONF ]; then
+    echo "Удаление стандартной конфигурации nginx..."
     rm -f /etc/nginx/sites-available/$DOMAIN
     rm -f /etc/nginx/sites-enabled/$DOMAIN
 fi
