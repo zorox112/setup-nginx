@@ -15,14 +15,21 @@ fi
 DOMAIN=$1
 INTERNAL_ADDRESS=$2
 EMAIL=$3
+NGINX_CONF="/etc/nginx/sites-available/$DOMAIN"
 
 # Устанавливаем необходимые пакеты
 echo "Установка Nginx и Certbot..."
 apt update
 apt install -y nginx certbot python3-certbot-nginx
 
+# Проверка наличия старой конфигурации
+if [ -f $NGINX_CONF ]; then
+    echo "Конфигурация для домена $DOMAIN уже существует. Удаление старой конфигурации..."
+    rm -f /etc/nginx/sites-available/$DOMAIN
+    rm -f /etc/nginx/sites-enabled/$DOMAIN
+fi
+
 # Создаем конфигурацию Nginx
-NGINX_CONF="/etc/nginx/sites-available/$DOMAIN"
 echo "Создаем конфигурацию Nginx для домена $DOMAIN..."
 
 cat > $NGINX_CONF <<EOL
@@ -56,9 +63,6 @@ nginx -t
 # Перезапуск Nginx
 echo "Перезапуск Nginx..."
 systemctl reload nginx
-
-echo "Добавляем Nginx в автозапуск..."
-systemctl enable nginx
 
 # Устанавливаем SSL сертификат с помощью Certbot
 echo "Запуск Certbot для получения SSL сертификата..."
