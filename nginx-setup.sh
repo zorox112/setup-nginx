@@ -32,8 +32,7 @@ fi
 # Проверка наличия дефолтной конфигурации
 if [ -f $NGINX_DEFAULT_CONF ]; then
     echo "Удаление стандартной конфигурации nginx..."
-    rm -f /etc/nginx/sites-available/$DOMAIN
-    rm -f /etc/nginx/sites-enabled/$DOMAIN
+    rm -f /etc/nginx/sites-available/default
 fi
 
 # Создаем конфигурацию Nginx
