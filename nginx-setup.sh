@@ -16,7 +16,7 @@ DOMAIN=$1
 INTERNAL_ADDRESS=$2
 EMAIL=$3
 NGINX_CONF="/etc/nginx/sites-available/$DOMAIN"
-NGINX_DEFAULT_CONF="/etc/nginx/sites-available/default"
+NGINX_DEFAULT_CONF="/etc/nginx/sites-enabled/default"
 
 # Устанавливаем необходимые пакеты
 echo "Установка Nginx и Certbot..."
