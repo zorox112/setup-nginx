@@ -45,12 +45,6 @@ server {
         proxy_set_header X-Forwarded-Proto \$scheme;
     }
 }
-
-server {
-    listen 80;
-    server_name $DOMAIN;
-    return 301 https://\$host\$request_uri;
-}
 EOL
 
 # Включаем сайт в Nginx
